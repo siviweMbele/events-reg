@@ -1,3 +1,28 @@
 'use strict';
+//import-modules
+var eventsApp = angular.module('eventsApp',['ngResource', 'ngRoute']) 
+.config(function($routeProvider, $locationProvider){
+    $routeProvider.when('/newEvent', {
+        templateUrl:'templates/NewEvent.html',
+        controller:'EditEventController'
+    });
 
-var eventsApp = angular.module('eventsApp', ['ngResource','ngCookies']);
+    $routeProvider.when('/events', {
+        templateUrl:'templates/EventList.html',
+        controller:'EventListController'
+    });
+
+    $routeProvider.when('/event/:eventId', {
+        foo:'bar', //custom property accessable from route service in controller
+        templateUrl:'templates/EventDetails.html',
+        controller:'EventController',
+        resolve: {
+            event: function($route, eventData){
+                return eventData.getEvent($route.current.pathParams.eventId).$promise;
+            }
+        }
+    });
+
+    $routeProvider.otherwise({ redirectTo: '/events'});
+    $locationProvider.html5Mode(true);
+});

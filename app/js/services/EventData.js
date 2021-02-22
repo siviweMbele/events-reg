@@ -7,8 +7,8 @@ eventsApp.factory('eventData', function ($http, $log, $resource) {
     return {
 
         //USING RESOURCE FETCH DATA
-        getEvent: function() {
-            return resource.get({id:1});
+        getEvent: function(eventId) {
+            return resource.get({id:eventId});
         },
 
         //USING RESOURCE TO SAVE DATA
@@ -19,6 +19,10 @@ eventsApp.factory('eventData', function ($http, $log, $resource) {
                 event.id = parseInt(lastFile.split(".")[0]) + 1;
                 return resource.save(event);
             });
+        },
+
+        getAllEvents: function() {
+            return resource.query();
         }
 
 

@@ -1,8 +1,10 @@
 'use strict';
 
-eventsApp.controller('EventController', function ($scope, eventData, $log, $anchorScroll) {
+eventsApp.controller('EventController', function ($scope, eventData, $log, $anchorScroll, $routeParams, $route) {
     $scope.query = "";
     $scope.sortorder = "name";
+    console.log($route.current.foo);
+    console.log($route.current.params.eventId)
 
     //AnchorScroller takesfrom hash scroll to the element with id
     $scope.scrollToSession = function(){
@@ -10,16 +12,19 @@ eventsApp.controller('EventController', function ($scope, eventData, $log, $anch
     }
 
     //USING RESOURCE FETCH DATA
-    // $scope.event = eventData.getEvent();
+    // $scope.event = eventData.getEvent($routeParams.eventId);
+
+    //USING ROUTE TO FETCH DATA
+    $scope.event =$route.current.locals.event;
 
     //USING RESOURCE PROMISE FETCH DATA
-    eventData.getEvent().$promise.then(
-        function(event) {
-            $scope.event = event;
-        }
-    ).catch(function(response){
-        console.log(response)
-    });
+    // eventData.getEvent($routeParams.eventId).$promise.then(
+    //     function(event) {
+    //         $scope.event = event;
+    //     }
+    // ).catch(function(response){
+    //     console.log(response)
+    // });
 
     //USING HTTP FETCH DATA CALLBACK
     // eventData.getEvent(function (data){
@@ -41,5 +46,9 @@ eventsApp.controller('EventController', function ($scope, eventData, $log, $anch
 
     $scope.downVoteSession = function (session) {
         session.upVoteCount--;
+    }
+
+    $scope.reload = function(){
+        $route.reload();
     }
 });
