@@ -47,24 +47,17 @@
         <li ng-repeat="session in event.sessions | orderBy:sortorder | limitTo:4 | filter:query"
             id='session{{session.id}}'>
             <div class="row session">
-                <div class="span0 well votingWidget">
-                    <div class="votingButton" ng-click="upVoteSession(session)">
-                        <i class="icon-chevron-up icon-white"></i>
-                    </div>
-                    <div class="badge badge-inverse">
-                        <div>{{session.upVoteCount}}</div>
-                    </div>
-                    <div class="votingButton" ng-click="downVoteSession(session)">
-                        <i class="icon-chevron-down"></i>
-                    </div>
-                </div>
-
+                <vote upvote="upVoteSession(session)" downvote="downVoteSession(session)" count="session.upVoteCount">
+                </vote>
                 <div class="well span9">
-                    <h4 class="well-title">{{session.name}}</h4>
-                    <span>Duration: {{session.duration | durations}}</span> <br>
-                    <span>Level: {{session.level}}</span>
+                    <collapsible title="{{session.name}}">
+                        <!-- <h4 class="well-title">{{session.name}}</h4> -->
+                        <span>Duration: {{session.duration | durations}}</span> <br>
+                        <span>Level: {{session.level}}</span>
 
-                    <p> {{session.abstract}} </p>
+                        <p> {{session.abstract}} </p>
+                    </collapsible>
+
                 </div>
             </div>
         </li>
